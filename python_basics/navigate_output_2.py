@@ -1,0 +1,29 @@
+AWS_POLICY = {
+    "Version":"2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenyAllOutsideRequestedRegions",
+            "Effect": "Deny",
+            "NotAction": [
+                "cloudfront:*",
+                "iam:*",
+                "organizations:*",
+                "route53:*",
+                "support:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "eu-central-1",
+                        "eu-west-1",
+                        "eu-west-2",
+                        "eu-west-3"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+print(AWS_POLICY['Statement'][0]['Condition']['StringNotEquals']['aws:RequestedRegion'][1])
