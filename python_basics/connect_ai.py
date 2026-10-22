@@ -24,4 +24,6 @@ OPENAI_DATA = {"model":"gpt-6-luna","input": human_query}
 # STEP 7: MAKE THE CONNECTION
 response = requests.post(OPENAI_URL,headers=OPENAI_HEADERS,data=json.dumps(OPENAI_DATA))
 
-print(response.json())
+human_response = response.json()['output'][1]['content'][0]['text']
+
+print(human_response)
