@@ -12,4 +12,9 @@ OPENWEATHERMAP_URL = f"https://api.openweathermap.org/data/2.5/weather?zip={ZIP_
 
 response = requests.get(OPENWEATHERMAP_URL)
 
-print(response.json())
+if response.status_code == 200:
+    print("Connection success")
+    print(response.json())
+else:
+    print("Connection failure")
+    print(f"Error: {response.json()['message']}")
