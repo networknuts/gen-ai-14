@@ -1,0 +1,7 @@
+This function provides real-time weather of a location by 
+providing the zipcode of the given location. 
+This function requires zipcode as a mandatory argument however user's 
+can often provide location names instead of zipcodes. 
+
+If a location is received, we should provide the zipcode of that location for the
+function to run properly.
