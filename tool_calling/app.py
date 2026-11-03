@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from openai import OpenAI 
 import os 
 import requests 
+import json
 
 # SETUP THE ENVIRONMENT
 load_dotenv()
@@ -20,6 +21,8 @@ def get_weather(zipcode):
     return result 
 
 # TOOL SCHEMA / TOOL BLUEPRINT
+
+#URL: https://developers.openai.com/api/docs/guides/function-calling?api-mode=responses
 openai_tools = [
     {
         "type": "function",
@@ -39,6 +42,8 @@ openai_tools = [
     }
 ]
 
+# ASK FOR CUSTOMER QUERY AND MAKE LLM CALL
+
 human_query = input("Enter your query: ")
 
 response = client.responses.create(
@@ -47,4 +52,29 @@ response = client.responses.create(
     tools=openai_tools
 )
 
-print(response.output)
+# EXECUTE THE TOOL WHEN REQUIRED
+function_output = []
+
+for item in response.output:
+    if item.type == "function_call": 
+        arguments = json.loads(item.arguments) # str to dict 
+        if item.name == "get_weather":
+            result = get_weather(arguments['zipcode'])
+            print("="*20,"RAW FUNCTION OUTPUT","="*20)
+            print(result)
+        
+        function_output.append({
+            "type": "function_call_output",
+            "call_id": item.call_id,
+            "output": json.dumps({"result": result}) #dict to str
+        })
+
+# SECOND LLM CALL
+final_response = client.responses.create(
+    model="gpt-6-luna",
+    input=function_output,
+    previous_response_id=response.id
+)
+
+print("="*20,"AI ENHANCED OUTPUT","="*20)
+print(final_response.output_text)

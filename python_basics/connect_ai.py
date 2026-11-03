@@ -22,7 +22,7 @@ OPENAI_HEADERS = {"Content-Type": "application/json","Authorization": f"Bearer {
 OPENAI_DATA = {"model":"gpt-6-luna","input": human_query}
 
 # STEP 7: MAKE THE CONNECTION
-response = requests.post(OPENAI_URL,headers=OPENAI_HEADERS,data=json.dumps(OPENAI_DATA))
+response = requests.post(OPENAI_URL,headers=OPENAI_HEADERS,data=json.dumps(OPENAI_DATA)) #dict to str
 
 human_response = response.json()['output'][1]['content'][0]['text']
 
