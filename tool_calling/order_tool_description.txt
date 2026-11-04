@@ -1,0 +1,8 @@
+This function provides order data for a user by using 
+the userid as the mandatory argument.
+This function produces the following output:
+- item name
+- delivery date 
+- delivery status
+
+This function cannot run if the userid is missing.
