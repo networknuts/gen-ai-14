@@ -6,7 +6,7 @@ from langchain_qdrant import QdrantVectorStore
 
 # ENVIRONMENT VARIABLES
 load_dotenv()
-PDF_FILE_PATH = "small_data.pdf"
+PDF_FILE_PATH = "large_data.pdf"
 EMBEDDING_MODEL = "text-embedding-3-small"
 QDRANT_URL = "http://localhost:6333"
 QDRANT_COLLECTION_NAME = "example_collection"
@@ -21,7 +21,7 @@ pdf_text_data = loader.load()
 print("PDF LOADED SUCCESSFULLY")
 
 # STEP 2: CHUNKING STRATEGY
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=100,chunk_overlap=0)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=800,chunk_overlap=0)
 chunks = text_splitter.split_documents(pdf_text_data)
 print("CHUNKING COMPLETED")
 
